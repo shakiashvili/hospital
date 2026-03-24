@@ -1,8 +1,9 @@
 package person;
 
 import java.math.BigDecimal;
+import interfaces.IManagable;
 
-public class Receptionist extends Employee {
+public class Receptionist extends Employee implements IManagable {
     private String shift;
 
     public Receptionist(int age,String name,BigDecimal salary, String shift) {
@@ -12,7 +13,12 @@ public class Receptionist extends Employee {
 
     @Override
     public void work() {
-        System.out.print("I am Recieving the patients");
+        System.out.println("I am Recieving the patients");
+    }
+
+    @Override
+    public void manage() {
+        System.out.println("Receptionist " + name  + " Manages the work");
     }
 
     public String getShift() {
