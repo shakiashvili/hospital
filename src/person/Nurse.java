@@ -1,24 +1,22 @@
 package person;
 
+import java.math.BigDecimal;
 import person.Patient;
 
-public class Nurse {
+public class Nurse extends Employee {
     private String name;
     private String shift;
     private Patient[] patients;
 
-    public Nurse(String name, String shift, Patient[] patients) {
-        this.name = name;
+    public Nurse(int age, String name, BigDecimal salary, String shift, Patient[] patients) {
+        super(age, name, new BigDecimal("5000"));
         this.shift = shift;
         this.patients = patients;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public void work() {
+        System.out.print("Nurse is working ");
     }
 
     public String getShift() {

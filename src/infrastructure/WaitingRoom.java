@@ -1,4 +1,5 @@
 package infrastructure;
+
 import person.Receptionist;
 
 public class WaitingRoom {

@@ -1,12 +1,20 @@
 package infrastructure;
 
-public class Ambulance {
-    private String numberPlate;
+public class Ambulance extends Vechile {
     private boolean isAvailable;
 
     public Ambulance(String numberPlate, boolean isAvailable) {
-        this.numberPlate = numberPlate;
+        super(numberPlate, "Emergency");
         this.isAvailable = isAvailable;
+    }
+
+    public void dispatch() {
+        if(isAvailable) {
+            System.out.print("Ambulance " + numberPlate + " is going to an emergency");
+            this.isAvailable = false;
+        } else {
+            System.out.print("Ambulance car is taken");
+        }
     }
 
     public boolean isAvailable() {
@@ -14,14 +22,6 @@ public class Ambulance {
     }
 
     public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
-
-    public String getNumberPlate() {
-        return numberPlate;
-    }
-
-    public void setNumberPlate(String numberPlate) {
-        this.numberPlate = numberPlate;
+        this.isAvailable = available;
     }
 }

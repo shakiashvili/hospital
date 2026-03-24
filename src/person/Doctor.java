@@ -1,24 +1,44 @@
 package person;
 
+import java.util.Objects;
+import java.math.BigDecimal;
 import person.Patient;
 import equipment.Equipment;
 
-public class Doctor {
-    private String name;
+public class Doctor extends Employee {
     private String specialization;
     private Equipment[] equipments;
     private Patient[] patients; // Assigned patients
 
-    public Doctor(String name, String specialization, Equipment[] equipments,
+    public Doctor(int age, String name,BigDecimal salary, String specialization, Equipment[] equipments,
                   Patient[] patients) {
-        this.name = name;
+        super(age, name,new BigDecimal("10000"));
         this.specialization = specialization;
         this.equipments = equipments;
         this.patients = patients;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public void work() {
+        System.out.print("Doctor is working,healing patients ");
+    }
+
+    @Override
+    public String toString() {
+        return "Doctor{name='" + name + "', specialization='" + specialization + "'}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Doctor)) return false;
+        Doctor doctor = (Doctor) o;
+        return Objects.equals(name, doctor.name) && Objects.equals(specialization, doctor.specialization);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, specialization);
     }
 
     public String getSpecialization() {
@@ -33,9 +53,6 @@ public class Doctor {
         return patients;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }

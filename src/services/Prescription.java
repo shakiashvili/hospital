@@ -1,13 +1,19 @@
 package services;
 import java.math.BigDecimal;
 
-public class Prescription {
+public class Prescription extends MedicalDocument{
     private String medicationName;
     private BigDecimal cost;
 
-    public Prescription(String medicationName, BigDecimal cost) {
+    public Prescription(String documentID, String medicationName, BigDecimal cost) {
+        super(documentID);
         this.medicationName = medicationName;
         this.cost = cost;
+    }
+
+    @Override
+    public void archive() {
+        System.out.print("Archived");
     }
 
     public String getMedicationName() {

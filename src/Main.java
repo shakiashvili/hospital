@@ -14,20 +14,20 @@ public class Main {
         Equipment scissors = new Equipment("Scissors", true);
         Equipment[] doctorEquipments = {scissors};
 
-        MedicalRecord record = new MedicalRecord("Checkup", LocalDateTime.now());
-        Prescription prescription = new Prescription("Aspirin", new BigDecimal("15.50"));
+        MedicalRecord record = new MedicalRecord("Rec-01","Checkup", LocalDateTime.now());
+        Prescription prescription = new Prescription("Rx-01","Aspirin", new BigDecimal("15.50"));
 
         // 2. People Level
-        Patient patient = new Patient("Giorgi", 22, record, prescription);
+        Patient patient = new Patient(22, "Giorgi", record, prescription);
         Patient[] patients = {patient};
 
-        Doctor doctor = new Doctor("Lasha", "Cardiology", doctorEquipments, patients);
+        Doctor doctor = new Doctor(40, "Lasha", new BigDecimal("9500"), "Cardiology", doctorEquipments, patients);
         Doctor[] doctors = {doctor};
 
-        Nurse nurse = new Nurse("Ana", "Night Shift", patients);
+        Nurse nurse = new Nurse(25, "Ana", new BigDecimal("3000"),"Night Shift", patients);
         Nurse[] nurses = {nurse};
 
-        Receptionist receptionist = new Receptionist("Nina", "Night Shift");
+        Receptionist receptionist = new Receptionist(30, "Nina",new BigDecimal("2000"), "Night Shift");
 
         // 3. Infrastructure Level
         WaitingRoom waitingRoom = new WaitingRoom(20, receptionist);
@@ -50,14 +50,37 @@ public class Main {
 
         System.out.println("Welcome to " + hospital.getName());
 
-        // 5. Business Method #1 for parking
+        // Business methods
         LocalDateTime arrival = LocalDateTime.now().minusHours(4);
         LocalDateTime departure = LocalDateTime.now();
         parking.processParking(arrival, departure);
 
-        //6. Business method #2 for admission
-
         Appointment appointment = new Appointment();
         appointment.bookAppointment(patient, doctor,LocalDateTime.now());
+
+        // Second Homework
+        HospitalService service = new HospitalService();
+//      // Doctor
+        Person currentStaff;
+        currentStaff = doctor;
+        service.processWorkingActivity(currentStaff);
+
+        // Nurse
+        currentStaff = nurse;
+        service.processWorkingActivity(currentStaff);
+        // Receptionist
+        currentStaff = receptionist;
+        service.processWorkingActivity(currentStaff);
+
+        Doctor duplicateDoctor = new Doctor(40, "Lasha", new BigDecimal("9500"), "Cardiology", doctorEquipments, patients);
+
+
+        System.out.println(duplicateDoctor.toString());
+        System.out.println("Is doctor equal to doctorDuplicate" + doctor.equals(duplicateDoctor));
+        System.out.println("Hash code " + duplicateDoctor.hashCode());
+
+        ambulance.dispatch();
+
+
     }
 }

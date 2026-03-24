@@ -1,18 +1,13 @@
 package infrastructure;
 
-public class Building {
-    private String adress;
+public class Building extends Infrastructure{
     private int floorCount;
     private Room[] rooms;
 
-    public Building(String adress, int floorCount, Room[] rooms) {
-        this.adress = adress;
+    public Building(String location, int floorCount, Room[] rooms) {
+        super(location);
         this.floorCount = floorCount;
         this.rooms = rooms;
-    }
-
-    public String getAdress() {
-        return adress;
     }
 
     public int getFloorCount() {
@@ -21,10 +16,6 @@ public class Building {
 
     public Room[] getRooms() {
         return rooms;
-    }
-
-    public void setAdress(String adress) {
-        this.adress = adress;
     }
 
     public void setFloorCount(int floorCount) {

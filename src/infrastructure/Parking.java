@@ -24,7 +24,7 @@ public class Parking {
                 fee = BigDecimal.ZERO;
             }else{
                 fee = pricePerHour.multiply(BigDecimal.valueOf(totalHours));
-                System.out.println("Finall Fee" + fee);
+                System.out.println("Finall Fee " + fee);
             }
             totalSpots--;
         }

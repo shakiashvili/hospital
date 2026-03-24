@@ -1,20 +1,18 @@
 package person;
 
-public class Receptionist {
-    private String name;
+import java.math.BigDecimal;
+
+public class Receptionist extends Employee {
     private String shift;
 
-    public Receptionist(String name, String shift) {
-        this.name = name;
+    public Receptionist(int age,String name,BigDecimal salary, String shift) {
+        super(age, name, new BigDecimal("1000"));
         this.shift = shift;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public void work() {
+        System.out.print("I am Recieving the patients");
     }
 
     public String getShift() {
