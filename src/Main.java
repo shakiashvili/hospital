@@ -4,8 +4,9 @@ import equipment.*;
 import infrastructure.*;
 import person.*;
 import services.*;
+import interfaces.*;
 import department.Department;
-import hospital.Hospital;
+import hospital.*;
 
 public class Main {
 
@@ -60,17 +61,23 @@ public class Main {
 
         // Second Homework
         HospitalService service = new HospitalService();
-//      // Doctor
+       // Doctor
         Person currentStaff;
         currentStaff = doctor;
         service.processWorkingActivity(currentStaff);
+        // Interface polymorphism for Doctor
+        service.processTreatment(doctor, patient);
 
         // Nurse
         currentStaff = nurse;
         service.processWorkingActivity(currentStaff);
+       // Interface polymorphism for Nurse
+        service.processAssistance(nurse, patient);
         // Receptionist
         currentStaff = receptionist;
         service.processWorkingActivity(currentStaff);
+        // Interface polymorphism for Receptionist
+        service.processManagment(receptionist);
 
         Doctor duplicateDoctor = new Doctor(40, "Lasha", new BigDecimal("9500"), "Cardiology", doctorEquipments, patients);
 
@@ -80,6 +87,12 @@ public class Main {
         System.out.println("Hash code " + duplicateDoctor.hashCode());
 
         ambulance.dispatch();
+
+
+        // Call HospitalInfo class(Final classs with final method and variable)
+        HospitalInfo.printInfo();
+        System.out.println(HospitalInfo.NAME);
+
 
 
     }

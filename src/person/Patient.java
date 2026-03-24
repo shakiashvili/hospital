@@ -6,6 +6,7 @@ import services.Prescription;
 
 
 public class Patient extends Person {
+
     private MedicalRecord record;
     private Prescription prescription;
 

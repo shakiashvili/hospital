@@ -1,6 +1,7 @@
 package equipment;
 
 public class Equipment {
+
     private String eqipmentName;
     private boolean isSterile;
 

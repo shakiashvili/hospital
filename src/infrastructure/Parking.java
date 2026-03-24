@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.Duration;
 
 public class Parking {
+
     private int totalSpots;
     private BigDecimal pricePerHour;
 

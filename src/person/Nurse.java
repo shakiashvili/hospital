@@ -2,9 +2,11 @@ package person;
 
 import java.math.BigDecimal;
 import person.Patient;
+import interfaces.IAssistable;
 
-public class Nurse extends Employee {
-    private String name;
+
+public class Nurse extends Employee implements IAssistable {
+
     private String shift;
     private Patient[] patients;
 
@@ -16,7 +18,12 @@ public class Nurse extends Employee {
 
     @Override
     public void work() {
-        System.out.print("Nurse is working ");
+        System.out.println("Nurse is working ");
+    }
+
+    @Override
+    public void assist(Patient patient) {
+        System.out.println("Nurse " +name+ " assist Patients "  + patient.getName());
     }
 
     public String getShift() {

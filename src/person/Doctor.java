@@ -4,8 +4,10 @@ import java.util.Objects;
 import java.math.BigDecimal;
 import person.Patient;
 import equipment.Equipment;
+import interfaces.ITreatable;
 
-public class Doctor extends Employee {
+public class Doctor extends Employee implements ITreatable {
+
     private String specialization;
     private Equipment[] equipments;
     private Patient[] patients; // Assigned patients
@@ -19,8 +21,13 @@ public class Doctor extends Employee {
     }
 
     @Override
+    public void treat(Patient patient) {
+        System.out.println("Doctor treats " + name +"  " + patient.getName());
+    }
+
+    @Override
     public void work() {
-        System.out.print("Doctor is working,healing patients ");
+        System.out.println("Doctor is working,healing patients ");
     }
 
     @Override

@@ -1,6 +1,7 @@
 package infrastructure;
 
 public class Ambulance extends Vechile {
+
     private boolean isAvailable;
 
     public Ambulance(String numberPlate, boolean isAvailable) {
@@ -10,10 +11,10 @@ public class Ambulance extends Vechile {
 
     public void dispatch() {
         if(isAvailable) {
-            System.out.print("Ambulance " + numberPlate + " is going to an emergency");
+            System.out.println("Ambulance " + numberPlate + " is going to an emergency");
             this.isAvailable = false;
         } else {
-            System.out.print("Ambulance car is taken");
+            System.out.println("Ambulance car is taken");
         }
     }
 

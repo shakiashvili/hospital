@@ -2,6 +2,7 @@ package services;
 import java.math.BigDecimal;
 
 public class Prescription extends MedicalDocument{
+
     private String medicationName;
     private BigDecimal cost;
 

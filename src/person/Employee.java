@@ -2,9 +2,11 @@ package person;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import interfaces.IWorkable;
+import interfaces.IPayable;
 
+public class Employee extends Person implements IWorkable,IPayable {
 
-public class Employee extends Person {
     protected BigDecimal salary;
 
     public Employee(int age, String name, BigDecimal salary) {
@@ -15,6 +17,11 @@ public class Employee extends Person {
     @Override
     public void work() {
         System.out.println("Employee is working ");
+    }
+
+    @Override
+    public BigDecimal calculateSalary() {
+        return salary;
     }
 
     @Override

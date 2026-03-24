@@ -4,6 +4,7 @@ import infrastructure.*;
 import department.Department;
 
 public class Hospital {
+
     private String name;
     private Building building;
     private Department[] departments;
@@ -15,7 +16,7 @@ public class Hospital {
 
     static  {
         hospitalCount = 0;
-        System.out.print("Hospital class is loaded");
+        System.out.println("Hospital class is loaded");
     }
 
     public Hospital(String name, Building building, Department[] departments,

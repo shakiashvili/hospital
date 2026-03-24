@@ -3,6 +3,7 @@ package person;
 import java.util.Objects;
 
 public abstract class Person {
+
     protected String name;
     protected int age;
 

@@ -3,6 +3,7 @@ package infrastructure;
 import person.Receptionist;
 
 public class WaitingRoom {
+
     private int capacity;
     private Receptionist receptionist;
 
