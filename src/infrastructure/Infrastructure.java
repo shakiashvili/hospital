@@ -1,6 +1,7 @@
 package infrastructure;
 
 public abstract class Infrastructure {
+
     protected String location;
 
     public Infrastructure(String location) {

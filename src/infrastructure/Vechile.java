@@ -1,6 +1,7 @@
 package infrastructure;
 
 public abstract class Vechile {
+
     protected String numberPlate;
     protected String vechileType;
 

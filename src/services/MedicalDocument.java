@@ -1,6 +1,7 @@
 package services;
 
 public abstract class MedicalDocument {
+
     protected String documentID;
 
     public MedicalDocument(String documentID) {

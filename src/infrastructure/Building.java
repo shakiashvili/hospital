@@ -1,6 +1,7 @@
 package infrastructure;
 
 public class Building extends Infrastructure{
+
     private int floorCount;
     private Room[] rooms;
 

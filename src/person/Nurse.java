@@ -6,6 +6,7 @@ import interfaces.IAssistable;
 
 
 public class Nurse extends Employee implements IAssistable {
+
     private String shift;
     private Patient[] patients;
 

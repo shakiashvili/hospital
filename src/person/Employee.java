@@ -6,6 +6,7 @@ import interfaces.IWorkable;
 import interfaces.IPayable;
 
 public class Employee extends Person implements IWorkable,IPayable {
+
     protected BigDecimal salary;
 
     public Employee(int age, String name, BigDecimal salary) {

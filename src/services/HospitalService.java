@@ -11,13 +11,14 @@ public class HospitalService {
         person.work();
     }
 
-    public void processTreatment(ITreatable t, Patient patient) {
-        t.treat(patient);
+    public void processTreatment(ITreatable treatable, Patient patient) {
+        treatable.treat(patient);
     }
 
-    public void processAssistance(IAssistable a, Patient patient) {
-        a.assist(patient);
+    public void processAssistance(IAssistable assistable, Patient patient) {
+        assistable.assist(patient);
     }
+
     public void processManagment(IManagable managable) {
         managable.manage();
     }

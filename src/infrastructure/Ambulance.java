@@ -1,6 +1,7 @@
 package infrastructure;
 
 public class Ambulance extends Vechile {
+
     private boolean isAvailable;
 
     public Ambulance(String numberPlate, boolean isAvailable) {

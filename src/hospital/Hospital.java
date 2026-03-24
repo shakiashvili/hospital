@@ -4,6 +4,7 @@ import infrastructure.*;
 import department.Department;
 
 public class Hospital {
+
     private String name;
     private Building building;
     private Department[] departments;

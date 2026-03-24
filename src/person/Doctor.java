@@ -7,6 +7,7 @@ import equipment.Equipment;
 import interfaces.ITreatable;
 
 public class Doctor extends Employee implements ITreatable {
+
     private String specialization;
     private Equipment[] equipments;
     private Patient[] patients; // Assigned patients

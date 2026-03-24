@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import interfaces.IManagable;
 
 public class Receptionist extends Employee implements IManagable {
+
     private String shift;
 
     public Receptionist(int age,String name,BigDecimal salary, String shift) {
