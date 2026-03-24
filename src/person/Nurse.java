@@ -3,17 +3,27 @@ package person;
 import java.math.BigDecimal;
 import person.Patient;
 import interfaces.IAssistable;
-
+import exceptions.LowSalaryException;
+import exceptions.InvalidAgeException;
 
 public class Nurse extends Employee implements IAssistable {
 
     private String shift;
     private Patient[] patients;
 
-    public Nurse(int age, String name, BigDecimal salary, String shift, Patient[] patients) {
+    public Nurse(int age, String name, BigDecimal salary, String shift, Patient[] patients) throws LowSalaryException,InvalidAgeException {
         super(age, name, new BigDecimal("5000"));
         this.shift = shift;
         this.patients = patients;
+
+        if ( salary.compareTo(new BigDecimal("1000")) < 0) {
+            throw new LowSalaryException("Salary is to low");
+        }
+
+        if (age < 0 || age > 120) {
+            throw new InvalidAgeException("Age " + age+  " is not valid for a human");
+        }
+
     }
 
     @Override

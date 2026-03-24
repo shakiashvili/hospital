@@ -3,17 +3,26 @@ package person;
 import java.util.Objects;
 import services.MedicalRecord;
 import services.Prescription;
-
+import exceptions.InvalidAgeException;
+import exceptions.InvalidMedicalRecordException;
 
 public class Patient extends Person {
 
     private MedicalRecord record;
     private Prescription prescription;
 
-    public Patient(int age, String name, MedicalRecord record, Prescription prescription) {
+    public Patient(int age, String name, MedicalRecord record, Prescription prescription)
+            throws InvalidMedicalRecordException,InvalidAgeException {
         super(age, name);
         this.record = record;
         this.prescription = prescription;
+
+        if (age < 0 || age > 120) {
+            throw new InvalidAgeException("Age " + age + " is not valid for a human");
+        }
+        if (record == null) {
+            throw new InvalidMedicalRecordException("Patient cannot be admitted without a medical record");
+        }
     }
 
     public MedicalRecord getRecord() {

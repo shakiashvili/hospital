@@ -1,4 +1,5 @@
 package infrastructure;
+import exceptions.VechileNotAvailableException;
 
 public class Ambulance extends Vechile {
 
@@ -10,12 +11,11 @@ public class Ambulance extends Vechile {
     }
 
     public void dispatch() {
-        if(isAvailable) {
-            System.out.println("Ambulance " + numberPlate + " is going to an emergency");
-            this.isAvailable = false;
-        } else {
-            System.out.println("Ambulance car is taken");
+        if(!isAvailable()) {
+            throw new VechileNotAvailableException("Ambulance " + numberPlate + " is already taken!");
         }
+        this.isAvailable = false;
+
     }
 
     public boolean isAvailable() {
