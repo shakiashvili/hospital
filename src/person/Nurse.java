@@ -11,7 +11,7 @@ public class Nurse extends Employee implements IAssistable {
     private String shift;
     private Patient[] patients;
 
-    public Nurse(int age, String name, BigDecimal salary, String shift, Patient[] patients) throws LowSalaryException,InvalidAgeException {
+    public Nurse(int age, String name, BigDecimal salary, String shift, Patient[] patients) {
         super(age, name, new BigDecimal("5000"));
         this.shift = shift;
         this.patients = patients;

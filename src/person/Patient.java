@@ -11,8 +11,7 @@ public class Patient extends Person {
     private MedicalRecord record;
     private Prescription prescription;
 
-    public Patient(int age, String name, MedicalRecord record, Prescription prescription)
-            throws InvalidMedicalRecordException,InvalidAgeException {
+    public Patient(int age, String name, MedicalRecord record, Prescription prescription) {
         super(age, name);
         this.record = record;
         this.prescription = prescription;

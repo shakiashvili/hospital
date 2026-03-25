@@ -101,10 +101,8 @@ public class Main {
 
         } catch (InvalidDepartmentException e) {
             System.out.println(e.getMessage());
-        } catch (LowSalaryException | InvalidAgeException | VechileNotAvailableException e) {
-            System.out.println(e.getMessage());
-        } catch (Exception e) {
-            System.out.print(e.getMessage());
+        } finally {
+            System.out.println("Execution of Hospital class is done");
         }
         // Call HospitalInfo class(Final classs with final method and variable)
         HospitalInfo.printInfo();

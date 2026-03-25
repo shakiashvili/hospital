@@ -16,7 +16,7 @@ public class Doctor extends Employee implements ITreatable {
     private Patient[] patients; // Assigned patients
 
     public Doctor(int age, String name,BigDecimal salary, String specialization, Equipment[] equipments,
-                  Patient[] patients) throws LowSalaryException,InvalidAgeException {
+                  Patient[] patients) {
         super(age, name,new BigDecimal("10000"));
         this.specialization = specialization;
         this.equipments = equipments;
