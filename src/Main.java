@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 import equipment.*;
+import exceptions.*;
 import infrastructure.*;
 import person.*;
 import services.*;
@@ -11,89 +12,101 @@ import hospital.*;
 public class Main {
 
     public static void main(String[] args) {
-        // 1. Bottom Level (Equipment and Records)
-        Equipment scissors = new Equipment("Scissors", true);
-        Equipment[] doctorEquipments = {scissors};
 
-        MedicalRecord record = new MedicalRecord("Rec-01","Checkup", LocalDateTime.now());
-        Prescription prescription = new Prescription("Rx-01","Aspirin", new BigDecimal("15.50"));
+        try (MedicalScanner scanner = new MedicalScanner()) {
+            scanner.scan("Giorgi");
+        } catch (Exception e) {
+            System.out.println("Scanner System Error: " + e.getMessage());
+        }
 
-        // 2. People Level
-        Patient patient = new Patient(22, "Giorgi", record, prescription);
-        Patient[] patients = {patient};
+        try {
 
-        Doctor doctor = new Doctor(40, "Lasha", new BigDecimal("9500"), "Cardiology", doctorEquipments, patients);
-        Doctor[] doctors = {doctor};
+            // 1. Bottom Level (Equipment and Records)
+            Equipment scissors = new Equipment("Scissors", true);
+            Equipment[] doctorEquipments = {scissors};
 
-        Nurse nurse = new Nurse(25, "Ana", new BigDecimal("3000"),"Night Shift", patients);
-        Nurse[] nurses = {nurse};
+            MedicalRecord record = new MedicalRecord("Rec-01", "Checkup", LocalDateTime.now());
+            Prescription prescription = new Prescription("Rx-01", "Aspirin", new BigDecimal("15.50"));
 
-        Receptionist receptionist = new Receptionist(30, "Nina",new BigDecimal("2000"), "Night Shift");
+            // 2. People Level
+            Patient patient = new Patient(22, "Giorgi", record, prescription);
+            Patient[] patients = {patient};
 
-        // 3. Infrastructure Level
-        WaitingRoom waitingRoom = new WaitingRoom(20, receptionist);
+            Doctor doctor = new Doctor(40, "Lasha", new BigDecimal("9500"), "Cardiology", doctorEquipments, patients);
+            Doctor[] doctors = {doctor};
 
-        Room room = new Room("15", patient, doctorEquipments);
-        Room[] rooms = {room};
+            Nurse nurse = new Nurse(25, "Ana", new BigDecimal("3000"), "Night Shift", patients);
+            Nurse[] nurses = {nurse};
 
-        Department cardiology = new Department("Cardiology", doctors, nurses, rooms);
-        Department[] departments = {cardiology};
+            Receptionist receptionist = new Receptionist(30, "Nina", new BigDecimal("500"), "Night Shift");
 
-        Building building = new Building("University Street", 5, rooms);
+            // 3. Infrastructure Level
+            WaitingRoom waitingRoom = new WaitingRoom(20, receptionist);
 
-        Ambulance ambulance = new Ambulance("TB-344-TB", true);
-        Ambulance[] ambulances = {ambulance};
+            Room room = new Room("15", patient, doctorEquipments);
+            Room[] rooms = {room};
 
-        Parking parking = new Parking(50, new BigDecimal("5.90"));
+            Department cardiology = new Department("Cardiology", doctors, nurses, rooms);
+            Department[] departments = {cardiology};
 
-        // 4. Root Object
-        Hospital hospital = new Hospital("Med Hospital", building, departments, ambulances, parking, waitingRoom);
+            Building building = new Building("University Street", 5, rooms);
 
-        System.out.println("Welcome to " + hospital.getName());
+            Ambulance ambulance = new Ambulance("TB-344-TB", true);
+            Ambulance[] ambulances = {ambulance};
 
-        // Business methods
-        LocalDateTime arrival = LocalDateTime.now().minusHours(4);
-        LocalDateTime departure = LocalDateTime.now();
-        parking.processParking(arrival, departure);
+            Parking parking = new Parking(50, new BigDecimal("5.90"));
 
-        Appointment appointment = new Appointment();
-        appointment.bookAppointment(patient, doctor,LocalDateTime.now());
+            // 4. Root Object
+            Hospital hospital = new Hospital("Med Hospital", building, departments, ambulances, parking, waitingRoom);
 
-        // Second Homework
-        HospitalService service = new HospitalService();
-       // Doctor
-        Person currentStaff;
-        currentStaff = doctor;
-        service.processWorkingActivity(currentStaff);
-        // Interface polymorphism for Doctor
-        service.processTreatment(doctor, patient);
+            System.out.println("Welcome to " + hospital.getName());
 
-        // Nurse
-        currentStaff = nurse;
-        service.processWorkingActivity(currentStaff);
-       // Interface polymorphism for Nurse
-        service.processAssistance(nurse, patient);
-        // Receptionist
-        currentStaff = receptionist;
-        service.processWorkingActivity(currentStaff);
-        // Interface polymorphism for Receptionist
-        service.processManagment(receptionist);
+            // Business methods
+            LocalDateTime arrival = LocalDateTime.now().minusHours(4);
+            LocalDateTime departure = LocalDateTime.now();
+            parking.processParking(arrival, departure);
 
-        Doctor duplicateDoctor = new Doctor(40, "Lasha", new BigDecimal("9500"), "Cardiology", doctorEquipments, patients);
+            Appointment appointment = new Appointment();
+            appointment.bookAppointment(patient, doctor, LocalDateTime.now());
+
+            // Second Homework
+            HospitalService service = new HospitalService();
+            // Doctor
+            Person currentStaff;
+            currentStaff = doctor;
+            service.processWorkingActivity(currentStaff);
+            // Interface polymorphism for Doctor
+            service.processTreatment(doctor, patient);
+
+            // Nurse
+            currentStaff = nurse;
+            service.processWorkingActivity(currentStaff);
+            // Interface polymorphism for Nurse
+            service.processAssistance(nurse, patient);
+            // Receptionist
+            currentStaff = receptionist;
+            service.processWorkingActivity(currentStaff);
+            // Interface polymorphism for Receptionist
+            service.processManagment(receptionist);
+
+            Doctor duplicateDoctor = new Doctor(50, "Lasha", new BigDecimal("800"), "Cardiology", doctorEquipments, patients);
 
 
-        System.out.println(duplicateDoctor.toString());
-        System.out.println("Is doctor equal to doctorDuplicate" + doctor.equals(duplicateDoctor));
-        System.out.println("Hash code " + duplicateDoctor.hashCode());
+            System.out.println(duplicateDoctor.toString());
+            System.out.println("Is doctor equal to doctorDuplicate" + doctor.equals(duplicateDoctor));
+            System.out.println("Hash code " + duplicateDoctor.hashCode());
 
-        ambulance.dispatch();
+            ambulance.dispatch();
 
 
+        } catch (InvalidDepartmentException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            System.out.println("Execution of Hospital class is done");
+        }
         // Call HospitalInfo class(Final classs with final method and variable)
         HospitalInfo.printInfo();
         System.out.println(HospitalInfo.NAME);
-
-
 
     }
 }

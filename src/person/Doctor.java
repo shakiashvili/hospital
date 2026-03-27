@@ -5,6 +5,9 @@ import java.math.BigDecimal;
 import person.Patient;
 import equipment.Equipment;
 import interfaces.ITreatable;
+import exceptions.LowSalaryException;
+import exceptions.InvalidAgeException;
+
 
 public class Doctor extends Employee implements ITreatable {
 
@@ -18,6 +21,14 @@ public class Doctor extends Employee implements ITreatable {
         this.specialization = specialization;
         this.equipments = equipments;
         this.patients = patients;
+
+        if (salary.compareTo(new BigDecimal("1000")) < 0) {
+            throw new LowSalaryException("Salary is too low for a Doctor: " + salary);
+        }
+
+        if (age < 0 || age > 120) {
+            throw new InvalidAgeException("Age " + age + " is not valid for a human");
+        }
     }
 
     @Override

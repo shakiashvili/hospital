@@ -1,5 +1,6 @@
 package department;
 
+import exceptions.InvalidDepartmentException;
 import infrastructure.Room;
 import person.Doctor;
 import person.Nurse;
@@ -12,11 +13,15 @@ public class Department {
     private Nurse[] nurses;
     private Room[] rooms;
 
-    public Department(String name, Doctor[] doctors, Nurse[] nurses, Room[] rooms) {
+    public Department(String name, Doctor[] doctors, Nurse[] nurses, Room[] rooms) throws InvalidDepartmentException {
         this.name = name;
         this.doctors = doctors;
         this.nurses = nurses;
         this.rooms = rooms;
+
+        if (name == null) {
+            throw new InvalidDepartmentException("Department could not be null");
+        }
     }
 
     public String getName() {
