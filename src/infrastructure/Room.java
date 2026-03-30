@@ -1,14 +1,16 @@
 package infrastructure;
 
+import java.util.List;
 import person.Patient;
 import equipment.Equipment;
+
 public class Room {
 
     private String roomNumber;
     private Patient patient;
-    private Equipment[] tools;
+    private List<Equipment> tools;
 
-    public Room(String roomNumber, Patient patient, Equipment[] tools) {
+    public Room(String roomNumber, Patient patient, List<Equipment> tools) {
         this.roomNumber = roomNumber;
         this.patient = patient;
         this.tools = tools;
@@ -22,7 +24,7 @@ public class Room {
         return roomNumber;
     }
 
-    public Equipment[] getTools() {
+    public List<Equipment> getTools() {
         return tools;
     }
 
@@ -34,7 +36,7 @@ public class Room {
         this.patient = patient;
     }
 
-    public void setTools(Equipment[] tools) {
+    public void setTools(List<Equipment> tools) {
         this.tools = tools;
     }
 }

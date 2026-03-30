@@ -1,7 +1,10 @@
 package person;
 
-import java.util.Objects;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.List;
+import java.util.Set;
 import person.Patient;
 import equipment.Equipment;
 import interfaces.ITreatable;
@@ -12,11 +15,11 @@ import exceptions.InvalidAgeException;
 public class Doctor extends Employee implements ITreatable {
 
     private String specialization;
-    private Equipment[] equipments;
-    private Patient[] patients; // Assigned patients
+    private List<Equipment> equipments;
+    private Set<Patient> patients; // Assigned patients
 
-    public Doctor(int age, String name,BigDecimal salary, String specialization, Equipment[] equipments,
-                  Patient[] patients) {
+    public Doctor(int age, String name,BigDecimal salary, String specialization, List<Equipment> equipments,
+                  Set<Patient> patients) {
         super(age, name,new BigDecimal("10000"));
         this.specialization = specialization;
         this.equipments = equipments;
@@ -63,21 +66,21 @@ public class Doctor extends Employee implements ITreatable {
         return specialization;
     }
 
-    public Equipment[] getEquipments() {
+    public List<Equipment> getEquipments() {
         return equipments;
     }
 
-    public Patient[] getPatients() {
+    public Set<Patient> getPatients() {
         return patients;
     }
 
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }
-    public void setEquipments(Equipment[] equipments) {
+    public void setEquipments(List<Equipment> equipments) {
         this.equipments = equipments;
     }
-    public void setPatients(Patient[] patients) {
+    public void setPatients(Set<Patient> patients) {
         this.patients = patients;
     }
 }
