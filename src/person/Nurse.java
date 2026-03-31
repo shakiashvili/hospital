@@ -1,6 +1,7 @@
 package person;
 
 import java.math.BigDecimal;
+import java.util.Set;
 import person.Patient;
 import interfaces.IAssistable;
 import exceptions.LowSalaryException;
@@ -9,9 +10,9 @@ import exceptions.InvalidAgeException;
 public class Nurse extends Employee implements IAssistable {
 
     private String shift;
-    private Patient[] patients;
+    private Set<Patient> patients;
 
-    public Nurse(int age, String name, BigDecimal salary, String shift, Patient[] patients) {
+    public Nurse(int age, String name, BigDecimal salary, String shift, Set<Patient> patients) {
         super(age, name, new BigDecimal("5000"));
         this.shift = shift;
         this.patients = patients;
@@ -44,11 +45,11 @@ public class Nurse extends Employee implements IAssistable {
         this.shift = shift;
     }
 
-    public Patient[] getPatients() {
+    public Set<Patient> getPatients() {
         return patients;
     }
 
-    public void setPatients(Patient[] patients) {
+    public void setPatients(Set<Patient> patients) {
         this.patients = patients;
     }
 }

@@ -1,14 +1,17 @@
 package hospital;
 
+import java.util.ArrayList;
+import java.util.List;
 import infrastructure.*;
 import department.Department;
+
 
 public class Hospital {
 
     private String name;
     private Building building;
-    private Department[] departments;
-    private Ambulance[] ambulances;
+    private List<Department> departments;
+    private List<Ambulance> ambulances;
     private Parking parking;
     private WaitingRoom waitingRoom;
 
@@ -19,8 +22,8 @@ public class Hospital {
         System.out.println("Hospital class is loaded");
     }
 
-    public Hospital(String name, Building building, Department[] departments,
-                    Ambulance[] ambulances, Parking parking, WaitingRoom waitingRoom) {
+    public Hospital(String name, Building building, List<Department> departments,
+                    List<Ambulance> ambulances, Parking parking, WaitingRoom waitingRoom) {
         this.name = name;
         this.building = building;
         this.ambulances = ambulances;
@@ -38,11 +41,11 @@ public class Hospital {
         this.name = name;
     }
 
-    public Ambulance[] getAmbulances() {
+    public List<Ambulance> getAmbulances() {
         return ambulances;
     }
 
-    public void setAmbulances(Ambulance[] ambulances) {
+    public void setAmbulances(List<Ambulance> ambulances) {
         this.ambulances = ambulances;
     }
 
@@ -62,11 +65,11 @@ public class Hospital {
         Hospital.hospitalCount = hospitalCount;
     }
 
-    public Department[] getDepartments() {
+    public List<Department> getDepartments() {
         return departments;
     }
 
-    public void setDepartments(Department[] departments) {
+    public void setDepartments(List<Department> departments) {
         this.departments = departments;
     }
 
