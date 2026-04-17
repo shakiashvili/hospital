@@ -16,20 +16,6 @@ import hospital.*;
 import generics.*;
 
 public class Main {
-    @FunctionalInterface
-    interface EmergencyAlert {
-        void alert(String message, UrgencyLevel level);
-    }
-
-    @FunctionalInterface
-    interface TaxCalculator {
-        double apply(double amount, HospitalType type);
-    }
-
-    @FunctionalInterface
-    interface PatientValidator {
-        boolean validate(Patient p);
-    }
     public static void main(String[] args) {
 
         try (MedicalScanner scanner = new MedicalScanner()) {
