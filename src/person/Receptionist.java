@@ -1,15 +1,16 @@
 package person;
 
 import java.math.BigDecimal;
+import enums.ShiftType;
 import interfaces.IManagable;
 
 public class Receptionist extends Employee implements IManagable {
 
-    private String shift;
+    private ShiftType shiftType;
 
-    public Receptionist(int age,String name,BigDecimal salary, String shift) {
+    public Receptionist(int age,String name,BigDecimal salary, ShiftType shift) {
         super(age, name, new BigDecimal("1000"));
-        this.shift = shift;
+        this.shiftType = shiftType;
     }
 
     @Override
@@ -22,11 +23,11 @@ public class Receptionist extends Employee implements IManagable {
         System.out.println("Receptionist " + name  + " Manages the work");
     }
 
-    public String getShift() {
-        return shift;
+    public ShiftType getShiftType() {
+        return shiftType;
     }
 
-    public void setShift(String shift) {
-        this.shift = shift;
+    public void setShift(ShiftType shift) {
+        this.shiftType = shift;
     }
 }

@@ -1,10 +1,10 @@
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.*;
 
-
-import java.time.LocalDateTime;
-import java.math.BigDecimal;
+import records.MedicalReport;
+import enums.*;
 import equipment.*;
 import exceptions.*;
 import infrastructure.*;
@@ -16,7 +16,6 @@ import hospital.*;
 import generics.*;
 
 public class Main {
-
     public static void main(String[] args) {
 
         try (MedicalScanner scanner = new MedicalScanner()) {
@@ -27,7 +26,6 @@ public class Main {
 
         try {
 
-            // 1. Bottom Level (Equipment and Records)
             Equipment scissors = new Equipment("Scissors", true);
             List<Equipment> doctorEquipments = new ArrayList<>();
             doctorEquipments.add(scissors);
@@ -35,24 +33,34 @@ public class Main {
             MedicalRecord record = new MedicalRecord("Rec-01", "Checkup", LocalDateTime.now());
             Prescription prescription = new Prescription("Rx-01", "Aspirin", new BigDecimal("15.50"));
 
-            // 2. People Level
             Patient patient = new Patient(22, "Giorgi", record, prescription);
             Set<Patient> patients = new HashSet<>();
             patients.add(patient);
 
-            Doctor doctor = new Doctor(40, "Lasha", new BigDecimal("9500"), "Cardiology", doctorEquipments, patients);
+            Doctor doctor = new Doctor(
+                    40, "Lasha",
+                    new BigDecimal("9500"),
+                    "Cardiology",
+                    doctorEquipments,
+                    patients,ShiftType.DAY);
+
             List<Doctor> doctors = new ArrayList<>();
             doctors.add(doctor);
 
-            Nurse nurse = new Nurse(25, "Ana", new BigDecimal("3000"), "Night Shift", patients);
+            Nurse nurse = new Nurse(
+                    25, "Ana",
+                    new BigDecimal("3000"),
+                    ShiftType.NIGHT,
+                    patients);
             List<Nurse> nurses = new ArrayList<>();
             nurses.add(nurse);
 
-            Receptionist receptionist = new Receptionist(30, "Nina", new BigDecimal("500"), "Night Shift");
+            Receptionist receptionist = new Receptionist(
+                    30, "Nina",
+                    new BigDecimal("500"),
+                    ShiftType.NIGHT);
 
-            // 3. Infrastructure Level
             WaitingRoom waitingRoom = new WaitingRoom(20, receptionist);
-
             Room room15 = new Room("15", patient, doctorEquipments);
             List<Room> roomList = new ArrayList<>();
             roomList.add(room15);
@@ -61,40 +69,53 @@ public class Main {
             patientAssignmentMap.put(patient, room15);
 
             Department cardiology = new Department("Cardiology", doctors, nurses, patientAssignmentMap);
-
             List<Department> departments = new ArrayList<>();
             departments.add(cardiology);
 
             Building building = new Building("University Street", 5, roomList);
-
             Ambulance ambulance = new Ambulance("TB-344-TB", true);
             List<Ambulance> ambulances = new ArrayList<>();
             ambulances.add(ambulance);
 
             Parking parking = new Parking(50, new BigDecimal("5.90"));
-
-            // 4. Root Object
             Hospital hospital = new Hospital("Med Hospital", building, departments, ambulances, parking, waitingRoom);
 
             System.out.println("Welcome to " + hospital.getName());
 
-            // Collections
+
+            MedicalReport medicalReport = new MedicalReport("", "Stable condition, needs rest.", LocalDateTime.now());
+            System.out.println("Report Diagnostic: " + medicalReport.diagnostic());
+
+            Predicate<Patient> isAdult = p -> p.getAge() >= 18;
+            Function<Doctor, String> docInfo = d -> "Specialist: " + d.getName() + " [" + d.getSpecialization() + "]";
+            Consumer<MedicalReport> logReport = r -> System.out.println("Logging Report: " + r.diagnostic());
+            Supplier<LocalDateTime> timeNow = () -> LocalDateTime.now();
+            BiFunction<RoomType, Integer, Double> costCalc = (type, days) -> type.calculateTotalCost(days);
+
+
+            if (isAdult.test(patient)) System.out.println(patient.getName() + " is an adult.");
+            System.out.println(docInfo.apply(doctor));
+            logReport.accept(medicalReport);
+
+            EmergencyAlert siren = (msg, level) -> {
+                if(level.isCritical()) System.out.println("!!! ALERT [" + level.getColor() + "]: " + msg);
+            };
+            siren.alert("Emergency in ICU", UrgencyLevel.HIGH);
+
+            TaxCalculator taxCalc = (amount, type) -> type.calculateTaxes(amount) + amount;
+            double finalBill = taxCalc.apply(costCalc.apply(RoomType.VIP, 3), HospitalType.PRIVATE);
+            System.out.println("Total VIP Bill with Tax: $" + finalBill);
+
+            PatientValidator validator = p -> p.getName() != null && !p.getName().isEmpty() && (p.getAge() > 0 && p.getAge() < 150);
+            System.out.println("Is patient valid? " + validator.validate(patient));
 
             if(!doctors.isEmpty()) {
-                System.out.println("First Doctor in the list" + doctors.get(0).getName());
+                System.out.println("First Doctor: " + doctors.get(0).getName());
             }
 
-            // Map
             for(Map.Entry<Patient, Room> entry: patientAssignmentMap.entrySet()) {
-                System.out.println("Patient " + entry.getKey().getName()
-                        + " is assigned to Room " + entry.getValue().getRoomNumber());
+                System.out.println("Patient " + entry.getKey().getName() + " in Room " + entry.getValue().getRoomNumber());
             }
-
-            // Get first element of a set
-            Patient firstPatient = patients.iterator().next();
-            System.out.println(firstPatient.getName());
-
-            // Use generic classes
 
             Inventory<Equipment> inv = new Inventory<>();
             inv.add(scissors);
@@ -102,53 +123,31 @@ public class Main {
             DataLogger<Patient> patientLog = new DataLogger<>(patient);
             patientLog.printLog();
 
-
-            // Business methods
             LocalDateTime arrival = LocalDateTime.now().minusHours(4);
             LocalDateTime departure = LocalDateTime.now();
-            parking.processParking(arrival, departure);
 
-            Appointment appointment = new Appointment();
-            appointment.bookAppointment(patient, doctor, LocalDateTime.now());
+            // Implementation of BI function
+            BiFunction<Long, BigDecimal, BigDecimal> standardRate = (hours,rate) -> {
+                if(hours <= 1) {
+                    return BigDecimal.ZERO;
+                }
+                return rate.multiply(BigDecimal.valueOf(hours));
+            };
 
-            // Second Homework
+            parking.processParking(arrival, departure, standardRate);
+
             HospitalService service = new HospitalService();
-            // Doctor
-            Person currentStaff;
-            currentStaff = doctor;
-            service.processWorkingActivity(currentStaff);
-            // Interface polymorphism for Doctor
+            service.processWorkingActivity(doctor);
             service.processTreatment(doctor, patient);
 
-            // Nurse
-            currentStaff = nurse;
-            service.processWorkingActivity(currentStaff);
-            // Interface polymorphism for Nurse
-            service.processAssistance(nurse, patient);
-            // Receptionist
-            currentStaff = receptionist;
-            service.processWorkingActivity(currentStaff);
-            // Interface polymorphism for Receptionist
-            service.processManagment(receptionist);
-
-//            Doctor duplicateDoctor = new Doctor(50, "Lasha", new BigDecimal("800"), "Cardiology", doctorEquipments, patients);
-
-//
-//            System.out.println(duplicateDoctor.toString());
-//            System.out.println("Is doctor equal to doctorDuplicate" + doctor.equals(duplicateDoctor));
-//            System.out.println("Hash code " + duplicateDoctor.hashCode());
-
             ambulance.dispatch();
-
 
         } catch (InvalidDepartmentException e) {
             System.out.println(e.getMessage());
         } finally {
-            System.out.println("Execution of Hospital class is done");
+            System.out.println("Execution of Hospital logic is done.");
         }
-        // Call HospitalInfo class(Final classs with final method and variable)
-        HospitalInfo.printInfo();
-        System.out.println(HospitalInfo.NAME);
 
+        HospitalInfo.printInfo();
     }
 }
