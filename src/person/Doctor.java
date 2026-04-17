@@ -7,9 +7,12 @@ import java.util.List;
 import java.util.Set;
 import person.Patient;
 import equipment.Equipment;
+import enums.ShiftType;
+import enums.StaffStatus;
 import interfaces.ITreatable;
 import exceptions.LowSalaryException;
 import exceptions.InvalidAgeException;
+
 
 
 public class Doctor extends Employee implements ITreatable {
@@ -17,13 +20,22 @@ public class Doctor extends Employee implements ITreatable {
     private String specialization;
     private List<Equipment> equipments;
     private Set<Patient> patients; // Assigned patients
+    private ShiftType shiftType;
+    private StaffStatus status;
 
-    public Doctor(int age, String name,BigDecimal salary, String specialization, List<Equipment> equipments,
-                  Set<Patient> patients) {
-        super(age, name,new BigDecimal("10000"));
+    public Doctor(int age,
+                  String name,
+                  BigDecimal salary,
+                  String specialization,
+                  List<Equipment> equipments,
+                  Set<Patient> patients,
+                  ShiftType shiftType) {
+        super(age, name, salary);
         this.specialization = specialization;
         this.equipments = equipments;
         this.patients = patients;
+        this.shiftType = shiftType;
+        this.status = StaffStatus.ON_DUTY;
 
         if (salary.compareTo(new BigDecimal("1000")) < 0) {
             throw new LowSalaryException("Salary is too low for a Doctor: " + salary);
@@ -82,5 +94,20 @@ public class Doctor extends Employee implements ITreatable {
     }
     public void setPatients(Set<Patient> patients) {
         this.patients = patients;
+    }
+    public ShiftType getShiftType() {
+        return shiftType;
+    }
+
+    public void setShiftType(ShiftType shiftType) {
+        this.shiftType = shiftType;
+    }
+
+    public StaffStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(StaffStatus status) {
+        this.status = status;
     }
 }
