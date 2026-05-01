@@ -5,7 +5,9 @@ import services.MedicalRecord;
 import services.Prescription;
 import exceptions.InvalidAgeException;
 import exceptions.InvalidMedicalRecordException;
+import annotations.MedicalAsset;
 
+@MedicalAsset(author = "Giorgi", version = "2.0")
 public class Patient extends Person {
 
     private MedicalRecord record;

@@ -2,7 +2,9 @@ import java.time.LocalDateTime;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.*;
+import java.lang.reflect.*;
 
+import annotations.MedicalAsset;
 import records.MedicalReport;
 import enums.*;
 import equipment.*;
@@ -14,6 +16,8 @@ import interfaces.*;
 import department.Department;
 import hospital.*;
 import generics.*;
+import streams.StreamsAPI;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -25,6 +29,40 @@ public class Main {
         }
 
         try {
+
+            // Reflection code block
+
+            Class<?> clazz = Patient.class;
+
+            System.out.println("Class " + clazz.getName());
+            System.out.println("Modifiers: " + Modifier.toString(clazz.getModifiers()));
+
+            // Extracting Fields
+            Field[] fields = clazz.getDeclaredFields();
+            for (Field f: fields) {
+                System.out.println(Modifier.toString(f.getModifiers()) + " " + f.getName());
+            }
+
+            // Extracting constructor
+            Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+            for(Constructor<?> c: constructors) {
+                System.out.println(c.getName() + c.getParameterCount());
+            }
+
+            // Call
+            Object reflectionPatient = clazz.getDeclaredConstructor().newInstance();
+            Method setNameMethod = clazz.getMethod("setName", String.class);
+            setNameMethod.invoke(reflectionPatient, "Reflection_User");
+            Method getNameMethod = clazz.getMethod("getName");
+            System.out.println(getNameMethod.invoke(reflectionPatient));
+
+            if (clazz.isAnnotationPresent(MedicalAsset.class)) {
+                MedicalAsset assetInfo = clazz.getAnnotation(MedicalAsset.class);
+                System.out.println("Author: " + assetInfo.author());
+                System.out.println("Version: " + assetInfo.version());
+            }
+
+            // Collections
 
             Equipment scissors = new Equipment("Scissors", true);
             List<Equipment> doctorEquipments = new ArrayList<>();
@@ -86,6 +124,26 @@ public class Main {
             MedicalReport medicalReport = new MedicalReport("", "Stable condition, needs rest.", LocalDateTime.now());
             System.out.println("Report Diagnostic: " + medicalReport.diagnostic());
 
+            // Java Streams
+
+            StreamsAPI streamProcessor = new StreamsAPI();
+            streamProcessor.printAdultPatient(new ArrayList<>(patients));
+
+            List<String> doctorNames = streamProcessor.getDoctorsNames(doctors);
+            System.out.println(doctorNames);
+
+            System.out.println("Is Giorgi in hospital" + streamProcessor.findPatient(new ArrayList<>(patients),"Giorgi"));
+
+            System.out.println("High Earners Count: " + streamProcessor.countHighEarners(doctors, new BigDecimal("8000")));
+
+            Optional<Doctor> foundoc = streamProcessor.findDoctor(doctors, "Lasha");
+            foundoc.ifPresent(d -> System.out.println(d.getName()));
+
+            List<Patient> sortedPatients = streamProcessor.sortPatientsByAge(new ArrayList<>(patients));
+            System.out.println(sortedPatients);
+
+
+            // Lambdas
             Predicate<Patient> isAdult = p -> p.getAge() >= 18;
             Function<Doctor, String> docInfo = d -> "Specialist: " + d.getName() + " [" + d.getSpecialization() + "]";
             Consumer<MedicalReport> logReport = r -> System.out.println("Logging Report: " + r.diagnostic());
@@ -142,7 +200,13 @@ public class Main {
 
             ambulance.dispatch();
 
-        } catch (InvalidDepartmentException e) {
+        } catch (
+                InvalidDepartmentException |
+                NoSuchMethodException  |
+                InstantiationException |
+                IllegalAccessException |
+                InvocationTargetException e
+        )  {
             System.out.println(e.getMessage());
         } finally {
             System.out.println("Execution of Hospital logic is done.");
