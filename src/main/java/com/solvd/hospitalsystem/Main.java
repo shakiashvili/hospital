@@ -1,3 +1,4 @@
+package com.solvd.hospitalsystem;
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 import java.util.*;
